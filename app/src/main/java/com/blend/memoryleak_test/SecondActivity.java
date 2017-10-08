@@ -1,5 +1,6 @@
 package com.blend.memoryleak_test;
 
+import android.app.ActivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -44,8 +45,18 @@ public class SecondActivity extends AppCompatActivity {
         });
     }
 
-    public void onToast(View view){
+    public void onClickToast(View view) {
         ToastUtil.show("请查看是否内存泄漏");
+    }
+
+    public void onClickGetHeapSize(View view) {
+        final ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(info);
+        int heapSize = activityManager.getMemoryClass();
+//        ToastUtil.show("系统剩余内存:" + (info.availMem >> 10) + "k");
+        ToastUtil.show("HeapSize阈值:" + heapSize + "M");
+
     }
 
     @Override
